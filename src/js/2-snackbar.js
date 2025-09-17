@@ -1,24 +1,26 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import { Result } from 'postcss';
 
 const formEl = document.querySelector('.form');
 
 formEl.addEventListener('submit', onSubmit);
 function onSubmit(event) {
   event.preventDefault();
-  const delay = event.currentTarget.elements.delay.value;
 
+  const delay = Number(event.currentTarget.elements.delay.value);
   const radioBtn = event.currentTarget.elements.state.value;
+
   createPromise(radioBtn, delay)
-    .then(response => {
+    .then(({ delay }) => {
       iziToast.success({
         message: `✅ Fulfilled promise in ${delay}ms`,
+        position: 'topRight',
       });
     })
-    .catch(error => {
+    .catch(({ delay }) => {
       iziToast.error({
         message: `❌ Rejected promise in ${delay}ms`,
+        position: 'topRight',
       });
     });
 
